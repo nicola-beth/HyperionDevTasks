@@ -160,6 +160,21 @@ num = int(input("Please enter a value greater than 10")))
 if num < 10:
     raise Exception(f"num was less than 10, the value of num was: {num}")
 
+#example
+def get_int():
+    try:
+        return int(input("Enter a number: "))
+    except:
+        print("You have entered an invalid integer!")
+
+#using input in function
+def get_int_2(msg):
+    try:
+        return int(input(msg))
+    except:
+        print("You have entered an invalid integer!")
+
+num1 = get_int_2("Enter a number: ")
 
 #DATETIME RUN THROUGH
 import datetime import date
