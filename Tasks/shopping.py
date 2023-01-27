@@ -1,0 +1,10 @@
+import math
+item_1 = input("Name a product: ")
+item_2 = input("Name another product: ")
+item_3 = input("Name one more product: ")
+price_1 = float(input("How much is product 1?: "))
+price_2 = float(input("How much is product 2?: "))
+price_3 = float(input("How much is product 3?: "))
+total_price = (price_1 + price_2 + price_3)
+average_price = round((total_price/3),2)
+print(f"The Total of {item_1}, {item_2}, {item_3} is £{total_price} and the average price of the items is £{average_price}")

@@ -1,0 +1,5 @@
+name = input("What is your name?: ")
+age = int(input("How old are you?: "))
+house_number = int(input("What house number do you live at?: "))
+street_name = input("What is your street called?: ")
+print(f"Here we have {name}, who is {age} years of age and resides at {house_number}, {street_name}.")
