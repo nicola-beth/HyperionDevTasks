@@ -1,0 +1,10 @@
+START
+Create empty list
+Create counter equal to 4
+While counter is not equal to 0 
+	Request User to enter number
+	Add number to list
+	Reduce counter by 1
+Sort numbers from smallest to largest
+Print sorted list
+END

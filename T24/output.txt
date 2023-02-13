@@ -1,0 +1,3 @@
+The min number of [1, 2, 3, 4, 5, 6] is 1The max number of [1, 2, 3, 4, 5, 6] is 6The avg number of [1, 2, 3, 4, 5, 6] is 3.5The min number of [1, 2, 3, 4, 5, 6] is 1
+The max number of [1, 2, 3, 4, 5, 6] is 6
+The avg number of [1, 2, 3, 4, 5, 6] is 3.5

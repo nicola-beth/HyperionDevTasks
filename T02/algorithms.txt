@@ -1,0 +1,19 @@
+1.
+START
+Request user to input name
+Store input into variable called "first_name"
+Print "first_name"
+And print "Hello, World."
+END
+
+2.
+START
+Request user to enter age as integer
+Store input into integer variable called "age"
+If age variable greater than or equal to 18
+	Print "You're old enough"
+Elif age variable is greater than or equal to 16 but smaller than 18
+	Print "Almost there"
+Else
+	Print "You're just too young"
+END

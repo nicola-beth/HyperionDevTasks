@@ -1,0 +1,46 @@
+1.
+START
+Create empty list
+While condition equals true
+	request positive integer from user  
+		if user enters positive integer
+			add input to list
+		elif user enters 0 
+			condition equals false
+calculate max integer in list
+print maximum value
+END
+
+2.
+START
+create counter variable equalling zero
+create  total variable equalling zero
+request user to enter integer or "finish"
+if user enters integer 
+	add integer to total
+	increase counter by 1
+elif user enters "finish" 
+	average is equal to total divided by counter
+print average
+END
+
+3.
+START
+Create list of grocery items
+Request user enter what they have bought or "finish" 
+While condition equals true
+	If user enters list item
+		Remove item from list
+	Else user enters "finish"
+		Print list in alphabetical order
+END
+
+
+4. 
+START
+Get X and Y 
+Create variable S equal to sum of X and Y
+Create variable A equal to S divided by 2
+Create variable P equal to multiplication of X and Y
+Print values S, A and P
+END

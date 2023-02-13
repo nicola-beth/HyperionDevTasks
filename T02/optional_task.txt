@@ -1,0 +1,18 @@
+START
+Create variable a equal to 0
+Create variable b equal to 1
+Create variable c equal to 0
+Request user to enter number
+Store input into variable called "n"
+If n is equal to 1
+	Print a
+Elif
+	Print a
+	For value in range between 1 and n 
+		Print b
+		Calculate c equal to a + b
+		Set a equal to b
+		Set b equal to c
+END
+
+

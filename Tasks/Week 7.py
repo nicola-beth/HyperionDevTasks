@@ -6,6 +6,77 @@
 #print(dir("string")) - returns methods the string has
 "fjvdsc".split()
 
+
+#EXAMPLE
+class Student:
+    #constrcutor CONSTRUCTOR!
+    def __init__(self, name, cont, age, grades, complete):
+        #attributes: stud_name
+        #parametor: name
+        self.stud_name = name
+        self.stud_contacts = cont
+        self.stud_age = age
+        self.stud_grades = grades
+        self.complete = False
+
+    def is_completed(self):
+        self.complete = True
+
+    def print_additional(self):
+        print("This student has no additional access to the system.")
+
+    def __str__(self):
+        return f'''Student name: {self.stud_name}
+        Student Age: {self.stud_age}
+Student Contacts: {self.stud_contacts}
+Student Completion: {self.complete}'''
+
+
+# adding inheritence to the above
+class PostGrad(Student):  # existence of the child depends on the parent
+    #constructor
+    def __init__(self, name, cont, age, grades, complete):
+        super().__init__(name, cont, age, grades, complete)
+        self.qualifications = []        #attribute of empty list or dictionary
+
+    def print_additional(self):     #child class will override the parent when same method
+        print("This student has additional access to the system")
+
+#creation of an object
+john = Student("John", "01234567", 23, [58,96,45])
+stud2 = Student("Joseph", "0134567", 18, [41,13,99])
+stud7 = PostGrad("Graduate", "05678934", 34, [12,45, 78])
+
+#call the attribute NOT parameter
+print(john.stud_grades)
+print(stud2.stud_grades)
+print(john) #by default run the __str__
+john.is_completed
+print(stud7)
+stud7.qualifications.append("SE")
+stud7.print_additional()        #will print_additional from Child (PostGrad) as overrides parent method
+
+student_list = []
+student_list.append(john)
+student_list.append(stud2)
+
+def capture_student:
+    name = input("Enter student name: ")
+    c = input("Enter contact: ")
+    age = int(input("Enter age: "))
+    marks = input("Marks: ").split(", ")
+    marks = [int(m) for m in marks]
+    stud = Student(name, c, age, marks)
+    student_list.append(stud)
+
+capture_student()
+
+for st in student_list:
+    print(st)
+
+
+#further example
+
 class Cat():      #start new word with capital letter, different to other code in python (only CLASS Name!)
     print("fvdcsdcs".__str__())     #dedicated method names for our objects (i.e. string here) - convert object into actual text
 
@@ -65,6 +136,7 @@ millie = Cat(name, "irritating", "F", 3, False)         #must always contain all
 
 #inheritance, different classes can inherit attributes from the same class
 #fruit class is parent class or apple/banana/mango child class
+#inheritence example
 class Car:
     is_running = False
     def __init__(self, make, model):
@@ -199,3 +271,48 @@ class Wolf:
         print(silver_tooth.show_sleep_status())
 
     main()
+
+#YOUTUBE example
+#instance (call class)
+#object (member of the class)
+#method (function in the class)
+#attribute (variables in the class)
+class Item():
+    #class attribute
+    pay_rate = 0.8      #20% discount
+    all = []
+    def __init__(self, name: str, price: flaot, quantity = 0):      #assign default value to quantity (do not need type for quantity ad default denotes it needs to be an int)
+        #run validations to received arguments
+        assert price >= 0, f"Price: {price} is not greater or equal than 0"
+        assert quantity >= 0, f"Quantity: {quantity} is not greater or equal than 0"
+
+        #assignt to self object (incident attributes)
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
+        #actions to execute
+        Item.all.append(self)
+
+    def apply_discount(self):
+        self.price = self.price * self.pay_rate
+
+    def __repr__(self):     #or return string to represent each object
+        reutrn f"Item('{self.name}', {self.price}, {self.quantity})"
+
+
+
+item1 = Item("Keyboard", 100, 3)
+item1.has_keypad = True #can assign attribute outside of __init__ method
+item2 = Item("Laptop", 1000, 1)
+item2.pay_rate = 0.7        #change class variable for specific object
+
+
+print(Item.pay_rate)
+print(item1.pay_rate)
+print(Item.__dict__)        #all attributes for class level
+print(item1.__dict__)       #all attributes for incidence level (good for debugging)
+
+#print all item names
+for instance in Item.all:
+    print(instance.name)
