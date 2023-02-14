@@ -9,7 +9,7 @@ user_dict = {}
 #function to register a new user to user.txt
 def reg_user():
     new_username = input("Enter a new username: ")
-    #interate through usernames to see if the new user already exists
+    #interate through usernames to see if the new user already exists, if not ask for password
     while new_username in user_dict:
         print("Username already exists")
         new_username = input("Enter a new username: ")
@@ -38,9 +38,9 @@ def add_task():
     write_task = open("tasks.txt", "a")
     write_task.write(f"\n{new_task_username}, {new_task_title}, {new_task_description}, {new_task_current_date}, {new_task_due_date}, {new_task_complete}")
     write_task.close()
-    print("You have succesfully added a task.")
+    print("You have successfully added a task.")
 #
-#function to view all existing tasks in task.txt, displayed in an easy to read way
+#function to view all existing tasks in task.txt, displayed in an easy to read way (using a dictionary & enumerating through)
 def view_all():
     read_tasks = open("tasks.txt", "r")
     tasks_data = read_tasks.readlines()
@@ -58,16 +58,15 @@ def view_all():
             print(f"Task description: \n \t {tasks_dict[count][2]}")
         read_tasks.close()
 
-# # function to view all tasks assigned to signed in user in task.txt, displayed in an easy to read way
+#function to view all tasks assigned to signed in user in task.txt, displayed in an easy to read way  (using a dictionary & enumerating through)
 def view_mine():
     read_tasks = open("tasks.txt", "r")
     tasks_data = read_tasks.readlines()
     print(tasks_data)
     tasks_dict = {}
-    #for every line in task file, split by "," and print against heading to clearly display info
+    #for every line in task file, split by "," and print against heading to clearly display info so user can easily identify task to choose later in function
     for count, task_info in enumerate(tasks_data, 1):
         tasks_dict[count] = task_info.strip("\n").split(", ")
-        # for count, task_info in tasks_dict.values():
         if user_name == tasks_dict[count][0]:
             print(f"-------------------------[Task number: {count}]---------------------------")
             print(f"Task: \t\t\t {tasks_dict[count][1]}")
@@ -77,6 +76,7 @@ def view_mine():
             print(f"Task complete?:  {tasks_dict[count][5]}")
             print(f"Task description: \n \t {tasks_dict[count][2]}")
             print(f"--------------------------------------------------------------------------")
+    #While loop to ask User if they would like to selected a task which they can then mark as complete or edit
     while True:
         user_task_num = int(input("Which task could you like to select? (-1 to exit): "))
         if user_task_num != -1:
@@ -84,6 +84,7 @@ def view_mine():
             mc - mark task as complete
             et - edit task
             ''')
+            #Mark as complete: replaces input for this field to "Yes" and writes new & updated data back to file
             if task_menu == "mc":
                 update_input = tasks_dict[user_task_num]
                 update_input[-1] = "Yes"
@@ -98,11 +99,13 @@ def view_mine():
                 write_tasks = open("tasks.txt", "w")
                 write_tasks.write(new_file_contents)
                 break
+            #Edit Task: Asks user if they would like to change assignee or due date of selected task
             elif task_menu == "et":
                 task_menu_2 = input('''Select one of the options below
                 at - change assignee username
                 dd - change due date
                 ''')
+                #Asks for user input and replaces it & rewrites new & updated data to file
                 if task_menu_2 == "at":
                     update_input = tasks_dict[user_task_num]
                     update_input[0] = input("Enter username of new assignee: ")
@@ -136,29 +139,36 @@ def view_mine():
         elif user_task_num == -1:
             break
 
-# function for when admin user wants to display statistics
+#Function for when admin user wants to display statistics, reading data from task/user overview files (generateing them first incase they don't exist)
 def display_stats():
-    read_tasks = open("tasks.txt", "r")
+    gen_report()
+    read_tasks = open("task_overview.txt", "r")
     tasks_data = read_tasks.readlines()
-    read_users = open("tasks.txt", "r")
+    read_users = open("user_overview.txt", "r")
     users_data = read_users.readlines()
+
     sum_users = len(users_data)      #total number of users will be length of user list
     sum_tasks = len(tasks_data)     #total number of tasks will be number of lines read from tasks.txt file
+
     print(f"Total number of users: {sum_users}")
     print(f"Total number of tasks: {sum_tasks}")
     read_tasks.close()
     read_users.close()
 
+#Function to generate report which includes overview of Tasks and Users & prints to txt file
 def gen_report():
+    #Task report provides info on overdue and incomplete tasks & percentages these are of overall number of tasks
     read_tasks = open("tasks.txt", "r")
     tasks_data = read_tasks.readlines()
     over_due = 0
     incomplete = 0
+    #Incomplete: calculated using last input for each task in task file which represents this with a Yes/No
     for line in tasks_data:
         split_data_tasks = line.strip("\n").split(", ")
         #need to compare two dates (strings needs to be converted to date object)
         if split_data_tasks[-1].lower() == "no":
             incomplete += 1
+    #Overdue: calculated by seeing if Due date is less than the current date
     for line in tasks_data:
         split_data_tasks = line.strip("\n").split(", ")
         due_date = split_data_tasks[-2]
@@ -168,18 +178,20 @@ def gen_report():
     #list of data points to be added to txt file
     total_task_num = len(tasks_data)
     complete = total_task_num - incomplete
-
+    #Percentages taken by proportion of total tasks
     percentage_incomplete = (incomplete / total_task_num) * 100
     percentage_over_due = (over_due / total_task_num) * 100
-
+    #Write new data and export to new txt file
     write_input_tasks = f"Total number of tasks: {total_task_num}\nNumber of complete tasks: {complete}\nNumber of incomplete tasks: {incomplete}\nNumber of overdue tasks: {over_due}\nPercentage of incomplete tasks: {percentage_incomplete}%\nNumber of overdue tasks: {percentage_over_due}%\n"
     write_tasks = open("task_overview", "w+")
     write_tasks.write(f"{write_input_tasks}")
     write_tasks.close()
 
+    #User report provides info on each User and their total tasks, overude & incomplete/complete
     read_users = open("user.txt", "r")
     users_data = read_users.readlines()
     total_users_num = len(users_data)
+    #Data colelcted through empty lists and coutners which reference if tasks are compelte or not and if they are overdue
     for line in users_data:
         split_data_users = line.strip("\n").split(", ")
         user_tasks_counter = {}
@@ -204,14 +216,12 @@ def gen_report():
                         for user_value, overdue_count in user_overdue_counter.items():
                             write_input_users = ""
                             write_input_users += f"Tasks Assigned: {user_value}, {task_count} tasks\nPercentage of total tasks assigned to {user_value}: {task_count/total_task_num * 100}%\nPercentage of completed tasks for {user_value}: {completed_count/task_count * 100}%\nPercentage of incompleted tasks for {user_value}: {(1 - completed_count/task_count) * 100}%\nPercentage of overdue tasks for {user_value}: {(overdue_count/task_count) * 100}%"
-
+    #Write new data and export to new txt file
     write_user = open("user_overview", "w+")
     write_user.write(f"{write_input_users}")
     write_user.close()
-
     read_tasks.close()
     read_users.close()
-
 
 #====Login Section====
 #read user file and put data into variable
@@ -240,7 +250,7 @@ while True:
 
 
 while True:
-    #presenting the menu to the user and
+    #presenting the menu to the user (with extra permissions for admin user)
     # making sure that the user input is converted to lower case.
     if user_name == "admin":
         menu = input('''Select one of the following Options below:

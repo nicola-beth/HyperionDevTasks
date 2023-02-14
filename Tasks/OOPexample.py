@@ -71,7 +71,7 @@ class Cow(object):
         >>> blue_cow.set_colour('red')
         '''
         self.colour = new_colour
-
+#trial
     def get_colour(self):
         '''
         This method returns the cow's colour.

@@ -76,11 +76,13 @@ def view_all():
         print(item)
     pass
 
-#Function to update file once new Shoe is added
+#Function to update file once new Shoe is added (add all shoes in shoe_list to file)
 def update_file():
     write_inventory = open("inventory.txt", "w")
     write_inventory.write("Country,Code,Product,Cost,Quantity")
+    write_inventory.close()
     for item in shoe_list:
+        write_inventory = open("inventory.txt", "a")
         write_inventory.write(f"\n{item.new_shoe_data()}")
     write_inventory.close()
     read_shoes_data()
@@ -163,7 +165,7 @@ while True:
             highest_qty()
         else:
             print("Unrecognised input, please try again")
-    except:
-        print("There has been an error! Did you read the data in before requesting an action? Remember you need to type \"r\" after you run the program to do this.")
+    except Exception as e:
+        print(f"There has been an error! Did you read the data in before requesting an action? Remember you need to type \"r\" after you run the program to do this. Exception: {e}")
 
 
