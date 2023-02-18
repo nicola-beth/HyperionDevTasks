@@ -9,7 +9,7 @@ user_dict = {}
 #function to register a new user to user.txt
 def reg_user():
     new_username = input("Enter a new username: ")
-    #interate through usernames to see if the new user already exists
+    #interate through usernames to see if the new user already exists, if not ask for password
     while new_username in user_dict:
         print("Username already exists")
         new_username = input("Enter a new username: ")
@@ -38,9 +38,9 @@ def add_task():
     write_task = open("tasks.txt", "a")
     write_task.write(f"\n{new_task_username}, {new_task_title}, {new_task_description}, {new_task_current_date}, {new_task_due_date}, {new_task_complete}")
     write_task.close()
-    print("You have succesfully added a task.")
+    print("You have successfully added a task.")
 #
-#function to view all existing tasks in task.txt, displayed in an easy to read way
+#function to view all existing tasks in task.txt, displayed in an easy to read way (using a dictionary & enumerating through)
 def view_all():
     read_tasks = open("tasks.txt", "r")
     tasks_data = read_tasks.readlines()
@@ -58,17 +58,15 @@ def view_all():
             print(f"Task description: \n \t {tasks_dict[count][2]}")
         read_tasks.close()
 
-# # function to view all tasks assigned to signed in user in task.txt, displayed in an easy to read way
+#function to view all tasks assigned to signed in user in task.txt, displayed in an easy to read way  (using a dictionary & enumerating through)
 def view_mine():
     read_tasks = open("tasks.txt", "r")
     tasks_data = read_tasks.readlines()
     print(tasks_data)
     tasks_dict = {}
-    #for every line in task file, split by "," and print against heading to clearly display info
+    #for every line in task file, split by "," and print against heading to clearly display info so user can easily identify task to choose later in function
     for count, task_info in enumerate(tasks_data, 1):
         tasks_dict[count] = task_info.strip("\n").split(", ")
-        # for count, task_info in tasks_dict.values():
-        print(tasks_dict)
         if user_name == tasks_dict[count][0]:
             print(f"-------------------------[Task number: {count}]---------------------------")
             print(f"Task: \t\t\t {tasks_dict[count][1]}")
@@ -78,104 +76,172 @@ def view_mine():
             print(f"Task complete?:  {tasks_dict[count][5]}")
             print(f"Task description: \n \t {tasks_dict[count][2]}")
             print(f"--------------------------------------------------------------------------")
+    #While loop to ask User if they would like to selected a task which they can then mark as complete or edit
     while True:
-        user_task_num = input("Which task could you like to select? (-1 to exit): ")
+        user_task_num = int(input("Which task could you like to select? (-1 to exit): "))
         if user_task_num != -1:
             task_menu = input('''Select one of the options below
             mc - mark task as complete
             et - edit task
             ''')
+            #Mark as complete: replaces input for this field to "Yes" and writes new & updated data back to file
+            if task_menu == "mc":
+                update_input = tasks_dict[user_task_num]
+                update_input[-1] = "Yes"
+                tasks_dict[user_task_num] = update_input
+                new_file_contents = ""
+                for value in tasks_dict.values():
+                    for item in value:
+                        if item == value[-1]:
+                            new_file_contents += (item + "\n")
+                        else:
+                            new_file_contents += (item + ", ")
+                write_tasks = open("tasks.txt", "w")
+                write_tasks.write(new_file_contents)
+                break
+            #Edit Task: Asks user if they would like to change assignee or due date of selected task
+            elif task_menu == "et":
+                task_menu_2 = input('''Select one of the options below
+                at - change assignee username
+                dd - change due date
+                ''')
+                #Asks for user input and replaces it & rewrites new & updated data to file
+                if task_menu_2 == "at":
+                    update_input = tasks_dict[user_task_num]
+                    update_input[0] = input("Enter username of new assignee: ")
+                    tasks_dict[user_task_num] = update_input
+                    new_file_contents = ""
+                    for value in tasks_dict.values():
+                        for item in value:
+                            if item == value[-1]:
+                                new_file_contents += (item + "\n")
+                            else:
+                                new_file_contents += (item + ", ")
+                    write_tasks = open("tasks.txt", "w")
+                    write_tasks.write(new_file_contents)
+                    break
+                elif task_menu_2 == "dd":
+                    update_input = tasks_dict[user_task_num]
+                    update_input[4] = input("Enter new due date: ")
+                    tasks_dict[user_task_num] = update_input
+                    new_file_contents = ""
+                    for value in tasks_dict.values():
+                        for item in value:
+                            if item == value[-1]:
+                                new_file_contents += (item + "\n")
+                            else:
+                                new_file_contents += (item + ", ")
+                    write_tasks = open("tasks.txt", "w")
+                    write_tasks.write(new_file_contents)
+                    break
+            else:
+                print("Do not recognise that input, please try again.")
+        elif user_task_num == -1:
+            break
 
-            # if task_menu == "mc":
-                # for task_info in tasks_data:
-                #     if tasks_dict[user_task_num] in task_info:
-                #         update_data = task_info.replace("No", "Yes")
-                #         write_tasks = open("tasks.txt", "w")
-                #         write_tasks.write(update_data)
-                # mark_as_completed = tasks_dict[user_task_num][5] == "Yes"
-                # update_data = read_task({tasks_dict[user_task_num][5]}, mark_as_completed)
-            # elif task_menu == "et":
-            #     task_menu_2 = print('''Select one of the options below
-            #     at - change assignee username
-            #     dd - change due date
-            #     ''')
-            #     if task_menu_2 == "at":
-            #         assigned_to = tasks_dict[user_task_num][0] = input("Enter username of new assignee: ")
-            #         update_data = read_task.replace({tasks_dict[user_task_num][0]}, assigned_to)
-            #         break
-            #     elif task_menu_2 == "dd":
-            #         due_date = tasks_dict[user_task_num][4] = input("Enter new due date: ")
-            #         update_data = read_task.replace({split_data[4]}, due_date)
-            #         break
-            #     else:
-            #         print("Do not recognise that input, please try again.")
-            # write_tasks = open("tasks.txt", "w")
-            # write_tasks.write(update_data)
-            # read_tasks.close()
-            # write_tasks.close()
-        # elif user_task_num == -1:
-        #     break
-
-# function for when admin user wants to display statistics
+#Function for when admin user wants to display statistics, reading data from task/user overview files (generateing them first incase they don't exist)
 def display_stats():
-    read_tasks = open("tasks.txt", "r")
+    gen_report()
+    read_tasks = open("task_overview.txt", "r")
     tasks_data = read_tasks.readlines()
-    read_users = open("tasks.txt", "r")
+    print(f"Task Overview: ")
+    for line in tasks_data:
+        line = line.strip("\n")
+        print(line)
+    read_users = open("user_overview.txt", "r")
     users_data = read_users.readlines()
-    sum_users = len(users_data)      #total number of users will be length of user list
-    sum_tasks = len(tasks_data)     #total number of tasks will be number of lines read from tasks.txt file
-    print(f"Total number of users: {sum_users}")
-    print(f"Total number of tasks: {sum_tasks}")
+    print(f"\n\nUser Overview: ")
+    for line in users_data:
+        line = line.strip("\n")
+        print(line)
     read_tasks.close()
     read_users.close()
 
+#Function to generate report which includes overview of Tasks and Users & prints to txt file
 def gen_report():
+    #Task report provides info on overdue and incomplete tasks & percentages these are of overall number of tasks
     read_tasks = open("tasks.txt", "r")
     tasks_data = read_tasks.readlines()
+    write_tasks = open("task_overview.txt", "w")
+    write_tasks.close()
     over_due = 0
     incomplete = 0
+    #Incomplete: calculated using last input for each task in task file which represents this with a Yes/No
     for line in tasks_data:
-        split_data = line.strip("\n").split(", ")
+        split_data_tasks = line.strip("\n").split(", ")
         #need to compare two dates (strings needs to be converted to date object)
-        if split_data[5].lower() == "no":
+        if split_data_tasks[-1].lower() == "no":
             incomplete += 1
-    print(incomplete)
+    #Overdue: calculated by seeing if Due date is less than the current date
     for line in tasks_data:
-        split_data = line.strip("\n").split(", ")
-        due_date = split_data[-2]
-        current_date = split_data[-3]
-        if split_data[5].lower() == "no" and due_date < current_date:
+        split_data_tasks = line.strip("\n").split(", ")
+        due_date = split_data_tasks[-2]
+        current_date = split_data_tasks[-3]
+        if split_data_tasks[-1].lower() == "no" and due_date < current_date:
             over_due += 1
-    print(over_due)
     #list of data points to be added to txt file
     total_task_num = len(tasks_data)
     complete = total_task_num - incomplete
-    incomplete = incomplete
-    over_due = over_due
+    #Percentages taken by proportion of total tasks
     percentage_incomplete = (incomplete / total_task_num) * 100
     percentage_over_due = (over_due / total_task_num) * 100
+    #Write new data and export to new txt file
+    write_input_tasks = f"Total number of tasks: {total_task_num}\nNumber of complete tasks: {complete}\nNumber of incomplete tasks: {incomplete}\nNumber of overdue tasks: {over_due}\nPercentage of incomplete tasks: {percentage_incomplete}%\nNumber of overdue tasks: {percentage_over_due}%\n"
+    write_tasks = open("task_overview.txt", "w")
+    write_tasks.write(f"{write_input_tasks}")
+    write_tasks.close()
 
-    print(total_task_num)
-    print(complete)
-    print(incomplete)
-    print(over_due)
-    print(percentage_incomplete)
-    print(percentage_over_due)
-
-    read_users = open("tasks.txt", "r")
+    #User report provides info on each User and their total tasks, overude & incomplete/complete
+    read_users = open("user.txt", "r")
     users_data = read_users.readlines()
-    for line in users_data:
-        split_data = line.strip("\n").split(", ")
-
     total_users_num = len(users_data)
-
-
-
-    read_tasks.close()
-    read_users.close()
-
-
-
+    write_users = open("user_overview.txt", "w")
+    write_users.close()
+    #Data colelcted through empty lists and coutners which reference if tasks are compelte or not and if they are overdue
+    for line in users_data:
+        split_data_users = line.strip("\n").split(", ")
+        user_tasks_counter = {}
+        user_completed_counter = {}
+        user_overdue_counter = {}
+        for count, user in enumerate(split_data_users):
+            if count == 0:
+                if user not in user_tasks_counter:
+                    user_tasks_counter[user] = 0
+                    user_completed_counter[user] = 0
+                    user_overdue_counter[user] = 0
+                for task in tasks_data:
+                    current_task = task.strip("\n").split(", ")
+                    if user.strip() == current_task[0]:
+                        user_tasks_counter[user] += 1
+                    if current_task[-1] == "Yes":
+                        user_completed_counter[user] += 1
+                    if current_task[-2] < current_task[-3] and current_task[-1] == "No":     #due date < current date
+                        user_overdue_counter[user] += 1
+                for user_value, task_count in user_tasks_counter.items():
+                    for user_value, completed_count in user_completed_counter.items():
+                        for user_value, overdue_count in user_overdue_counter.items():
+                            if task_count == 0:
+                                percentage_complete = 0
+                                percentage_incomplete = 0
+                                percentage_overdue = 0
+                                percentage_assigned_to = 0
+                            else:
+                                percentage_assigned_to = task_count/total_task_num * 100
+                                percentage_complete = completed_count/task_count * 100
+                                percentage_incomplete = (1 - completed_count/task_count) * 100
+                                percentage_overdue = (overdue_count/task_count) * 100
+                            write_input_users = ""
+                            write_input_users += (f"Tasks Assigned: {user_value}, {task_count} tasks\n"
+                                              + f"Percentage of total tasks assigned to {user_value}: {percentage_assigned_to}%\n"
+                                              + f"Percentage of completed tasks for {user_value}: {percentage_complete}%\n"
+                                              + f"Percentage of incompleted tasks for {user_value}: {percentage_incomplete}%\n"
+                                              + f"Percentage of overdue tasks for {user_value}: {percentage_overdue}%\n\n")
+                        #Write new data and export to new txt file
+                        write_user = open("user_overview.txt", "a")
+                        write_user.write(f"{write_input_users}")
+                        write_user.close()
+                        read_tasks.close()
+                        read_users.close()
 
 #====Login Section====
 #read user file and put data into variable
@@ -204,7 +270,7 @@ while True:
 
 
 while True:
-    #presenting the menu to the user and
+    #presenting the menu to the user (with extra permissions for admin user)
     # making sure that the user input is converted to lower case.
     if user_name == "admin":
         menu = input('''Select one of the following Options below:

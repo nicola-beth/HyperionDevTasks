@@ -1,0 +1,21 @@
+1.
+a) Data - store of numbers, characters or symbols which viewing alone (without context) is hard to draw value or insights from
+b) Field - defines the meaning of the data sat within it (provides context)
+c) Record - collection of fields which relate to a person, place or thing 
+d) File - A larger set of data with multiple records which have the same fields populated 
+
+2. DBMS - Database management system.
+Advantages of DBMS;
+- Share data: provides the platform which is managed so users can easily access and manipulate the data so they can get quickly draw insights on the underlying data.
+- Data integration: data can be accessed in an efficient and effective way so multiple systems can speak to each other in a more seamless manner. 
+- Minimised data inconsistency: ensures good management of held data so it is held in a centralised places and placed into logical structures.
+- Data access: easier to add/update/delete data (less chances of mistake due to better user tooling)
+- Better decision making: Better availability and advanced manipulation of data will allow for better insights to be made which decisions are made off the back of.
+
+3. Data alone is just characters/numbers/symbols and is effectively useless as it holds no context. Information has been drawn from set conditions and logic and therefore provides insights.
+
+4. Metadata is defined as the data providing information about one or more aspects of the data; it is used to summarise basic information about data that can make tracking and working with specific data easier.
+
+5. 
+e) 4 records in the file 
+f) 5 fields per record

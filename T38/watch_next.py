@@ -15,7 +15,11 @@ def movie_recomendation(movie_description):
     for key, value in movies_dict.items():
         similarity = nlp(value).similarity(nlp_movie_description)
         movies_similarity_ratings[key] = similarity
-    print(f"Most similar movie in our database: {max(movies_similarity_ratings)}\n", value)
+    most_similar_rating = max(movies_similarity_ratings.values())
+    for k, v in movies_similarity_ratings.items():
+        if v == most_similar_rating:
+            most_similar_movie = k
+    print(f"Most similar movie in our database: {most_similar_movie} at a rating of {most_similar_rating}\n", value)
 
 #Provided inputs to feed into the function
 user_movie_title = "Planet Hulk"

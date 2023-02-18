@@ -1,0 +1,6 @@
+1. Protocol: A defined list of instructions which inputs need to follow and adhere to, to be able to be interpreted and processed correctly
+2. HTTP is a protocol that's built on top of the TCP/IP protocols. Each HTTP request is inside an IP packet, and each HTTP response is inside another IP packet--or more typically, multiple packets, since the response data can be quite large.
+3. Successful responses: 200-299 (100: Request succeeded)
+4. Stateless protocol: Each request the server received does not relate to requests which were sent previously, it must be treated as independent 
+5. Image/jpeg, text/javascript, text/jsx, image/psd, text/calender
+6. 403 Forbidden [if User does not have permission to access]
